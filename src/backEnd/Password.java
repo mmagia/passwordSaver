@@ -1,22 +1,22 @@
 package backEnd;
 
-import java.io.Serializable;
-import java.security.Key;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.Serializable;
+import java.security.Key;
 import java.util.Random;
 
 public class Password implements Printable, Serializable {
     private String password;
     private int length;
-    private static final String key = "Bar12345Bar12345";
-    private static final Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-    private static final int strongPasswordLenght = 12;
+    private final String key = "Bar12345Bar12345";
+    private final Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+    private final int strongPasswordLength = 12;
     private byte[] encrypted;
 
     public Password() {
         this.password = encryptPassword(generateStrongPassword());
-        this.length = strongPasswordLenght;
+        this.length = strongPasswordLength;
     }
 
     public Password(String password) {
@@ -52,7 +52,7 @@ public class Password implements Printable, Serializable {
         Random random = new Random();
         StringBuilder generatedString = new StringBuilder();
         while (true) {
-            for (int i = 0; i < strongPasswordLenght; i++) {
+            for (int i = 0; i < strongPasswordLength; i++) {
                 int index = random.nextInt(alphabet.length());
                 generatedString.append(alphabet.charAt(index));
             }
@@ -66,6 +66,7 @@ public class Password implements Printable, Serializable {
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
+        this.length = newPassword.length();
     }
 
     private String getOriginalPassword() {
